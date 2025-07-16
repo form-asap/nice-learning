@@ -1,0 +1,95 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/social_media
+
+    Displays the social media icons in the theme_nice footer.
+
+    Context variables required for this template:
+    * social_media_title - The heading title for the social media section.
+    * social_media_target_href - Either "_blank" or "_self" depending on how links should open.
+    * facebook_url - URL to the Facebook page (optional).
+    * x_url - URL to the X (Twitter) page (optional).
+    * instagram_url - URL to the Instagram page (optional).
+    * youtube_url - URL to the YouTube page (optional).
+    * linkedin_url - URL to the LinkedIn page (optional).
+
+    Any of these URLs may be empty. If so, their corresponding icons will not be rendered.
+
+    Example context (JSON):
+    {
+        "social_media_title": "Follow us",
+        "social_media_target_href": "_blank",
+        "facebook_url": "https://www.facebook.com/nicelearning",
+        "x_url": "https://x.com/nicelearning",
+        "instagram_url": "https://www.instagram.com/nicelearning",
+        "youtube_url": "https://www.youtube.com/@nicelearning",
+        "linkedin_url": "https://www.linkedin.com/company/nicelearning"
+    }
+}}
+
+<div class="nice-footer-social-media-container">
+   <h5 class="nice-footer-title">
+      {{social_media_title}}
+   </h5>
+   <!--End nice-footer-title-->
+   <ul class="nice-footer-social-media list-inline">
+      {{#facebook_url}}
+      <li class="nice-footer-social-media-item list-inline-item">
+         <a href="{{facebook_url}}" target="{{social_media_target_href}}" class="d-flex align-items-center justify-content-center" aria-label="Facebook">
+         <i class="fab fa-facebook" aria-hidden="true"></i>
+         </a>
+      </li>
+      <!--End nice-footer-social-media-item-->
+      {{/facebook_url}}
+      {{#x_url}}
+      <li class="nice-footer-social-media-item list-inline-item">
+         <a href="{{x_url}}" target="{{social_media_target_href}}" class="d-flex align-items-center justify-content-center" aria-label="X">
+         <i class="fa-solid fa-x"></i>
+         </a>
+      </li>
+      <!--End nice-footer-social-media-item-->
+      {{/x_url}}
+      {{#instagram_url}}
+      <li class="nice-footer-social-media-item list-inline-item">
+         <a href="{{instagram_url}}" target="{{social_media_target_href}}" class="d-flex align-items-center justify-content-center" aria-label="Instagram">
+         <i class="fa-brands fa-instagram"></i>
+         </a>
+      </li>
+      <!--End nice-footer-social-media-item-->
+      {{/instagram_url}}
+      {{#youtube_url}}
+      <li class="nice-footer-social-media-item list-inline-item">
+         <a href="{{youtube_url}}" target="{{social_media_target_href}}" class="d-flex align-items-center justify-content-center" aria-label="Youtube">
+         <i class="fa-brands fa-youtube"></i>
+         </a>
+      </li>
+      <!--End nice-footer-social-media-item-->
+      {{/youtube_url}}
+      {{#linkedin_url}}
+      <li class="nice-footer-social-media-item list-inline-item">
+         <a href="{{linkedin_url}}" target="{{social_media_target_href}}" class="d-flex align-items-center justify-content-center" aria-label="Linkedin">
+         <i class="fa-brands fa-linkedin-in"></i>
+         </a>
+      </li>
+      <!--End nice-footer-social-media-item-->
+      {{/linkedin_url}}
+   </ul>
+   <!--End nice-footer-social-media list-inline-->
+</div>
+<!--End nice-footer-social-media-container-->

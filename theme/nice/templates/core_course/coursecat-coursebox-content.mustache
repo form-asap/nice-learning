@@ -1,0 +1,110 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/core_course/coursecat-coursebox-content
+
+    Displays a single course in a Bootstrap 5 card layout for the Nice theme.
+
+    This template is used to render one course in a list of courses.
+    It replaces the default Moodle layout for course listings.
+
+    Context variables required for this template:
+    * id - Course ID
+    * fullname - Course full name
+    * shortname - Course short name
+    * summary - HTML summary of the course
+    * summarytext - Plain text summary of the course
+    * overviewfiles - List of course overview images:
+        * fileurl - URL to the file
+        * isimage - true if the file is an image
+        * filename - name of the file
+    * coursecontacts - Array of course contact data:
+        * rolename - Name of the role (e.g. Teacher)
+        * username - User's display name
+        * userurl - Profile URL for the user
+    * courseurl - URL of the course page
+    * enrolledusercount - Number of enrolled users
+    * config.wwwroot - Moodle wwwroot URL for default images, etc.
+
+    Example context (JSON):
+    {
+        "id": 5,
+        "fullname": "Modern Tech",
+        "shortname": "MT-101",
+        "summary": "<p>Learn tech innovations shaping the world.</p>",
+        "summarytext": "Learn tech innovations shaping the world.",
+        "overviewfiles": [
+            {
+                "fileurl": "http://localhost/moodle/pluginfile.php/76/course/overviewfiles/11.jpg",
+                "isimage": true,
+                "filename": "11.jpg"
+            }
+        ],
+        "coursecontacts": [
+            {
+                "rolename": "Teacher",
+                "username": "Admin User",
+                "userurl": "http://localhost/moodle/user/view.php?id=2&course=1"
+            }
+        ],
+        "courseurl": "http://localhost/moodle/course/view.php?id=5",
+        "enrolledusercount": 35,
+        "config": {
+            "wwwroot": "http://localhost/moodle"
+        }
+    }
+}}
+
+<div class="card mb-4 shadow-sm">
+    <div class="row g-0">
+        <div class="col-md-4">
+        {{#overviewfiles}}
+            {{#isimage}}
+            <a href="{{courseurl}}">
+                <img src="{{fileurl}}" class="img-fluid rounded-start" alt="{{fullname}}">
+            </a>
+            {{/isimage}}
+        {{/overviewfiles}}
+        {{^overviewfiles}}
+            <a href="{{courseurl}}">
+            <img src="{{{config.wwwroot}}}/theme/nice/pix/course_default.jpg" class="img-fluid rounded-start" alt="{{fullname}}">
+            </a>
+        {{/overviewfiles}}
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title">
+            <a href="{{courseurl}}" class="text-decoration-none">{{fullname}}</a>
+            </h5>
+            <p class="card-text">{{{summary}}}</p>
+            <p class="card-text">
+            <span class="badge bg-primary me-2">
+                <i class="fa-regular fa-circle-user"></i> {{enrolledusercount}} {{#str}}students, theme_nice{{/str}}
+            </span>
+            {{#coursecontacts}}
+                <br>
+                <span class="text-muted small">
+                {{rolename}}:
+                <a href="{{userurl}}">{{username}}</a>
+                </span>
+            {{/coursecontacts}}
+            </p>
+        </div>
+        </div>
+    </div>
+</div>

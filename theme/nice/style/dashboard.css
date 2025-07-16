@@ -1,0 +1,110 @@
+.nice-dashboard-sidebar-item {
+    background: var(--nice-color-secondary);
+    display: block;
+    padding: 20px;
+    border-radius: var(--nice-border-radius);
+    text-align: center;
+    color: var(--nice-color-white);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nice-dashboard-sidebar-item:hover {
+    color: var(--nice-color-white);
+}
+
+.nice-dashboard-sidebar-item div {
+    margin-bottom: 10px;
+}
+
+.nice-dashboard-container {
+    background-color: #f9fafc;
+    position: relative;
+}
+
+.dashboard_main_content {
+    max-width: 100%;
+    position: relative;
+    padding-top: 20px;
+    min-height: 800px;
+}
+
+#page {
+    padding-top: 20px;
+    margin-top: 0;
+    padding-bottom: 40px;
+}
+
+.nice-settings-menu-container-full-header .singlebutton {
+    padding-top: 20px;
+    margin-bottom: 0;
+}
+
+.page-title-area {
+    background: var(--nice-breadcrumb-background);
+    color: var(--nice-breadcrumb-color);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nice-settings-menu-container-full-header #nice-settings-menu-id {
+    margin-top: 20px;
+}
+
+#notice {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tertiary-navigation {
+    padding-top: 0;
+    margin-bottom: 20px;
+}
+
+.dashboard-card {
+    box-shadow: none;
+    border: 3px solid var(--nice-color-light-grey);
+}
+
+.singlebutton {
+    margin-bottom: 1rem;
+}
+
+.path-admin .main_content_container {
+    border: none;
+    border-radius: var(--nice-border-radius);
+    -webkit-box-shadow: var(--nice-box-shadow);
+    -moz-box-shadow: var(--nice-box-shadow);
+    box-shadow: var(--nice-box-shadow);
+    padding: 15px;
+    background: var(--nice-color-white);
+    min-height: 800px;
+    margin-bottom: 20px;
+}
+
+.breadcrumb_widgets {
+    border-radius: var(--nice-border-radius);
+    background-color: rgba(48, 73, 82, 0.12);
+    height: 70px;
+    margin-bottom: 30px;
+    padding: 20px 10px;
+    position: relative;
+}
+
+.breadcrumb_widgets h2 {
+    margin-bottom: 0;
+}
+
+.gotocal {
+    background: var(--nice-color-grey);
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--nice-border-radius);
+    display: inline-flex;
+    margin-top: 16px;
+    color: var(--nice-color-white);
+}
+
+.page-title-content h1 {
+    font-size: 35px;
+    margin-bottom: 0;
+}

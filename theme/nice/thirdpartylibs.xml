@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>javascript/jquery.js</location>
+    <name>jQuery</name>
+    <license>MIT</license>
+    <version>3.7.1</version>
+    <licenseversion>2023</licenseversion>
+  </library>
+  <library>
+    <location>javascript/owl.carousel.min.js</location>
+    <name>Owl Carousel</name>
+    <license>MIT</license>
+    <version>2.3.4</version>
+    <licenseversion>2018</licenseversion>
+  </library>
+</libraries>

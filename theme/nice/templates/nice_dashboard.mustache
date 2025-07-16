@@ -1,0 +1,150 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/nice_dashboard
+
+    Dashboard page layout template for theme_nice.
+
+    Displays the user's dashboard with:
+    - Boost header and footer
+    - Breadcrumb navigation
+    - Page heading
+    - Secondary navigation menus
+    - Main content regions
+    - Optional sidebar blocks
+
+    Context variables required for this template:
+    * bodyattributes - HTML attributes for the <body> tag.
+    * output - Core renderer object containing:
+        * output.standard_top_of_body_html
+        * output.navbar
+        * output.full_header
+        * output.region_main_settings_menu
+        * output.course_content_header
+        * output.main_content
+        * output.activity_navigation
+        * output.course_content_footer
+        * output.standard_after_main_region_html
+    * pageheading - Title for the dashboard page.
+    * breadcrumb_clip_dash - CSS class for breadcrumb styling.
+    * hasblocks - Boolean whether sidebar blocks are present.
+    * sidepreblocks - HTML content of sidebar blocks.
+    * secondarymoremenu - HTML for the secondary navigation menu.
+    * has_blocks_above_content - Whether there are blocks above the main content.
+    * blocks_above_content - HTML content for blocks above the main content.
+    * has_blocks_below_content - Whether there are blocks below the main content.
+    * blocks_below_content - HTML content for blocks below the main content.
+    * addblockbutton - HTML for the "Add block" button.
+
+    Example context (JSON):
+    {
+        "bodyattributes": "class=\"someclasses\"",
+        "output": {
+            "standard_top_of_body_html": "<div>Top of body HTML</div>",
+            "navbar": "<nav>Navigation bar HTML</nav>",
+            "full_header": "<header>Header HTML</header>",
+            "region_main_settings_menu": "<div>Main settings menu</div>",
+            "course_content_header": "<div>Course header</div>",
+            "main_content": "<main>Main dashboard content</main>",
+            "activity_navigation": "<nav>Activity navigation</nav>",
+            "course_content_footer": "<footer>Footer HTML</footer>",
+            "standard_after_main_region_html": "<div>After main region HTML</div>"
+        },
+        "pageheading": "My Dashboard",
+        "breadcrumb_clip_dash": "clip-breadcrumb-class",
+        "hasblocks": true,
+        "sidepreblocks": "<aside>Sidebar blocks HTML</aside>",
+        "secondarymoremenu": "<nav>Secondary navigation</nav>",
+        "has_blocks_above_content": true,
+        "blocks_above_content": "<div>Above content blocks</div>",
+        "has_blocks_below_content": true,
+        "blocks_below_content": "<div>Below content blocks</div>",
+        "addblockbutton": "<button>Add block</button>"
+    }
+}}
+
+{{> theme_boost/head }}
+<body {{{ bodyattributes }}}>
+<div id="wrapper">
+{{{ output.standard_top_of_body_html }}}
+{{> theme_boost/navbar }}
+<div class="nice-dashboard-container">
+   <div class="dashboard_main_content">
+      <div class="container">
+         <div class="main_content_container">
+            <div class="row">
+               {{#hasblocks}}
+               <div class="col-lg-8">
+                  {{/hasblocks}}
+                  {{^ hasblocks }}
+                  <div class="col-lg-12">
+                     {{/hasblocks}}
+                     <nav class="breadcrumb_widgets {{{breadcrumb_clip_dash}}}" aria-label="breadcrumb mb30">
+                        <h2 class="title float-start">{{{ pageheading }}}</h2>
+                        <ol class="breadcrumb float-end">
+                           {{{ output.navbar }}}
+                        </ol>
+                     </nav>
+                     {{#secondarymoremenu}}
+                     <div class="secondary-navigation d-print-none">
+                        {{> core/moremenu}}
+                     </div>
+                     {{/secondarymoremenu}}
+                     {{{ output.full_header }}}
+                     {{{ output.region_main_settings_menu }}}
+                     {{#has_blocks_above_content}}
+                     {{{ blocks_above_content }}}
+                     {{/has_blocks_above_content}}
+                     {{{ output.course_content_header }}}
+                     {{{ output.main_content }}}
+                     {{{ output.activity_navigation }}}
+                     {{{ output.course_content_footer }}}
+                     {{#has_blocks_below_content}}
+                     {{{ blocks_below_content }}}
+                     {{/has_blocks_below_content}}
+                     {{{ addblockbutton }}}
+                  </div>
+                  {{#hasblocks}}
+                  <div class="col-lg-4">
+                     <div class="nice-sidebar-region-container" aria-label="{{#str}}blocks{{/str}}">
+                        {{{ sidepreblocks }}}
+                     </div>
+                  </div>
+                  {{/hasblocks}}
+               </div>
+            </div>
+         </div>
+      </div>
+      {{> theme_boost/footer }}
+   </div>
+   <!--End nice-dashboard-container -->
+   {{{ output.standard_after_main_region_html }}}
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(drawer) {
+drawer.init();
+M.util.js_complete('theme_boost/drawer');
+});
+{{/js}}

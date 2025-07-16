@@ -1,0 +1,169 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+::before,
+::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    -webkit-text-size-adjust: 100%;
+}
+
+img {
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+a:hover {
+    opacity: 0.8;
+    text-decoration: none;
+    color: unset;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+li {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.nice-box-shadow {
+    -webkit-box-shadow: var(--nice-box-shadow);
+    -moz-box-shadow: var(--nice-box-shadow);
+    box-shadow: var(--nice-box-shadow);
+}
+
+.nice-text-shadow {
+    text-shadow: var(--nice-text-shadow);
+}
+
+.nice-border-radius {
+    border-radius: var(--nice-border-radius);
+}
+
+.nice-color-black {
+    color: var(--nice-color-black);
+}
+
+.nice-color-white {
+    color: var(--nice-color-white);
+}
+
+.nice-color-red {
+    color: var(--nice-color-red);
+}
+
+.nice-color-blue {
+    color: var(--nice-color-blue);
+}
+
+.nice-color-purple {
+    color: var(--nice-color-purple);
+}
+
+.nice-color-green {
+    color: var(--nice-color-green);
+}
+
+.nice-color-yellow {
+    color: var(--nice-color-yellow);
+}
+
+.nice-color-brown {
+    color: var(--nice-color-brown);
+}
+
+.nice-color-grey {
+    color: var(--nice-color-grey);
+}
+
+.nice-color-pink {
+    color: var(--nice-color-pink);
+}
+
+.nice-color-orange {
+    color: var(--nice-color-orange);
+}
+
+.nice-color-main {
+    color: var(--nice-color-main);
+}
+
+.nice-background-black {
+    background: var(--nice-color-black);
+}
+
+.nice-background-white {
+    background: var(--nice-color-white);
+}
+
+.nice-background-red {
+    background: var(--nice-color-red);
+}
+
+.nice-background-blue {
+    background: var(--nice-color-blue);
+}
+
+.nice-background-purple {
+    background: var(--nice-color-purple);
+}
+
+.nice-background-green {
+    background: var(--nice-color-green);
+}
+
+.nice-background-yellow {
+    background: var(--nice-color-yellow);
+}
+
+.nice-background-brown {
+    background: var(--nice-color-brown);
+}
+
+.nice-background-grey {
+    background: var(--nice-color-grey);
+}
+
+.nice-background-pink {
+    background: var(--nice-color-pink);
+}
+
+.nice-background-orange {
+    background: var(--nice-color-orange);
+}
+
+.nice-background-main {
+    background: var(--nice-color-main);
+}
+
+.nice-background-light-grey {
+    background: var(--nice-color-light-grey);
+}

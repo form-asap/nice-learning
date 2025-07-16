@@ -1,0 +1,195 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/drawers
+
+    Main page layout template for theme_nice, adapted from Boost drawers.
+
+    Renders:
+    - Boost header and footer
+    - Optional page heading and breadcrumbs
+    - Full-width top and bottom block regions
+    - Optional side blocks (right column)
+    - Region main settings menu
+    - Blog layout if enabled
+    - Main page content area
+
+    Context variables required for this template:
+    * bodyattributes - HTML attributes for the <body> tag.
+    * output - Core renderer object containing:
+        * output.standard_top_of_body_html
+        * output.navbar
+        * output.context_header
+        * output.full_header
+        * output.region_main_settings_menu
+        * output.course_content_header
+        * output.main_content
+        * output.activity_navigation
+        * output.course_content_footer
+        * output.standard_after_main_region_html
+        * output.if_home_pages
+        * output.if_blog
+        * output.if_hide_page_bottom_content
+    * pageheading - The page heading text.
+    * hasblocks - Boolean indicating whether side blocks exist.
+    * sidepreblocks - HTML for side blocks.
+    * hasregionmainsettingsmenu - Whether the main settings menu is present.
+    * has_blocks_above_content - Whether blocks exist above main content.
+    * blocks_above_content - HTML for blocks above main content.
+    * has_blocks_below_content - Whether blocks exist below main content.
+    * blocks_below_content - HTML for blocks below main content.
+    * blocks_fullwidth_top - HTML for the full-width top region.
+    * blocks_fullwidth_bottom - HTML for the full-width bottom region.
+    * addblockbutton - HTML for the “Add block” button.
+
+    Example context (JSON):
+    {
+        "bodyattributes": "class=\"someclasses\"",
+        "output": {
+            "standard_top_of_body_html": "<div>top of body</div>",
+            "navbar": "<nav>Navbar HTML</nav>",
+            "context_header": "<div>Context header</div>",
+            "full_header": "<header>Header HTML</header>",
+            "region_main_settings_menu": "<div>Settings menu</div>",
+            "course_content_header": "<div>Course header</div>",
+            "main_content": "<main>Main page content</main>",
+            "activity_navigation": "<nav>Activity navigation</nav>",
+            "course_content_footer": "<footer>Footer</footer>",
+            "standard_after_main_region_html": "<div>After main</div>",
+            "if_home_pages": false,
+            "if_blog": false,
+            "if_hide_page_bottom_content": false
+        },
+        "pageheading": "My Dashboard",
+        "hasblocks": true,
+        "sidepreblocks": "<aside>Sidebar blocks HTML</aside>",
+        "hasregionmainsettingsmenu": true,
+        "has_blocks_above_content": true,
+        "blocks_above_content": "<div>Above content blocks</div>",
+        "has_blocks_below_content": true,
+        "blocks_below_content": "<div>Below content blocks</div>",
+        "blocks_fullwidth_top": "<div>Fullwidth top blocks</div>",
+        "blocks_fullwidth_bottom": "<div>Fullwidth bottom blocks</div>",
+        "addblockbutton": "<button>Add block</button>"
+    }
+}}
+
+{{> theme_boost/head }}
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="wrapper" class="nice-page-container">
+   {{> theme_boost/navbar }}
+   {{^ output.if_home_pages}}
+   <div class="page-title-area">
+      <div class="container">
+         <div class="page-title-content">
+            {{{ output.navbar }}}
+            <h1>{{{ pageheading }}}</h1>
+         </div>
+      </div>
+   </div>
+   {{/output.if_home_pages}}
+   <div class="nice-fullwidth-top" aria-label="{{#str}}blocks{{/str}}">
+      {{{ blocks_fullwidth_top }}}
+   </div>
+   <div  class="nice-settings-menu-container">
+      <div class="nice-settings-menu">
+         {{#hasregionmainsettingsmenu}}
+         <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
+            <div> {{{ output.region_main_settings_menu }}} </div>
+         </div>
+         {{/hasregionmainsettingsmenu}}
+      </div>
+   </div>
+   {{{ output.standard_top_of_body_html }}}
+   <div>
+      <div class="nice-settings-menu-container">
+         {{{ output.full_header }}}
+      </div>
+      {{#output.if_hide_page_bottom_content}}
+      <div class="d-none">
+         {{/output.if_hide_page_bottom_content}}
+         <div id="page" class="container d-print-block bottom-region-main-box">
+            <div id="page-content" class="d-print-block">
+               <div id="region-main-box">
+                  <div class="row">
+                     {{#hasblocks}}
+                     <div class="col-lg-8">
+                        {{/hasblocks}}
+                        {{^ hasblocks }}
+                        <div class="col-lg-12">
+                           {{/hasblocks}}
+                           {{{ addblockbutton }}}
+                           <div id="region-main" {{#hasblocks}}class="nice-has-blocks"{{/hasblocks}} aria-label="{{#str}}content{{/str}}">
+                           {{#hasregionmainsettingsmenu}}
+                           <div class="region_main_settings_menu_proxy"></div>
+                           {{/hasregionmainsettingsmenu}}
+                           {{#has_blocks_above_content}}
+                           {{{ blocks_above_content }}}
+                           {{/has_blocks_above_content}}
+                           <div class="nice-main">
+                              {{{ output.course_content_header }}}
+                              {{#output.if_blog}}
+                              <div class="blog-area">
+                                 <div class="row">
+                                    {{/output.if_blog}}
+                                    {{{ output.main_content }}}
+                                    {{#output.if_blog}}
+                                 </div>
+                              </div>
+                              {{/output.if_blog}}
+                              {{{ output.activity_navigation }}}
+                              {{{ output.course_content_footer }}}
+                           </div>
+                           {{#has_blocks_below_content}}
+                           {{{ blocks_below_content }}}
+                           {{/has_blocks_below_content}}
+                        </div>
+                     </div>
+                     {{#hasblocks}}
+                     <div class="col-lg-4">
+                        <div data-region="blocks-column nice-sidebar-region" class="d-print-none" aria-label="{{#str}}blocks{{/str}}">
+                           {{{ sidepreblocks }}}
+                        </div>
+                     </div>
+                     {{/hasblocks}}
+                  </div>
+               </div>
+            </div>
+         </div>
+         {{#output.if_hide_page_bottom_content}}
+      </div>
+      {{/output.if_hide_page_bottom_content}}
+      {{{ blocks_fullwidth_bottom }}}
+   </div>
+   {{> theme_boost/footer }}
+</div>
+{{{ output.standard_after_main_region_html }}}
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+M.util.js_complete('theme_boost/loader');
+});
+M.util.js_pending('theme_boost/drawer');
+require(['theme_boost/drawer'], function(mod) {
+mod.init();
+M.util.js_complete('theme_boost/drawer');
+});
+{{/js}}

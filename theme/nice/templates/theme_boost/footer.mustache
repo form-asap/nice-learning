@@ -1,0 +1,158 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/footer
+
+    Footer layout template for theme_nice.
+
+    Renders:
+    - Footer logo (optional)
+    - Site name fallback if no logo is present
+    - Footer description
+    - Three customizable footer columns
+    - Social media icons partial
+    - Copyright text
+    - Optional scroll-to-top button
+    - Debug footer content
+    - Standard end-of-body HTML
+
+    Context variables required for this template:
+    * config.wwwroot - Site root URL for links.
+    * hasfooterlogo - Boolean, whether a footer logo exists.
+    * footer_logo - URL of the footer logo image.
+    * footer_logo_width - Width for footer logo image.
+    * sitename - Site name text.
+    * footer_description - Text description shown under the logo.
+    * footer_column_title_one - Title for the first footer column.
+    * footer_column_body_one - HTML content for the first footer column.
+    * footer_column_title_two - Title for the second footer column.
+    * footer_column_body_two - HTML content for the second footer column.
+    * footer_column_title_three - Title for the third footer column.
+    * footer_column_body_three - HTML content for the third footer column.
+    * footer_copyright_text - Copyright or legal text at bottom.
+    * scroll_to_top_visibility - Boolean whether to display scroll-to-top button.
+    * output.debug_footer_html - Debug output HTML.
+    * output.standard_end_of_body_html - Standard end-of-body HTML snippet.
+
+    Partial templates used:
+    * theme_nice/nice_social_media - Partial for social media icons.
+
+    Example context (JSON):
+    {
+        "config": {
+            "wwwroot": "https://mymoodlesite.org"
+        },
+        "hasfooterlogo": true,
+        "footer_logo": "https://mymoodlesite.org/theme/image.php/theme_nice/theme/1700000000/footerlogo",
+        "footer_logo_width": "250",
+        "sitename": "Nice Learning",
+        "footer_description": "Empowering digital learning worldwide.",
+        "footer_column_title_one": "About Us",
+        "footer_column_body_one": "<p>About us HTML</p>",
+        "footer_column_title_two": "Quick Links",
+        "footer_column_body_two": "<ul><li>Link</li></ul>",
+        "footer_column_title_three": "Contact",
+        "footer_column_body_three": "<p>Contact info</p>",
+        "footer_copyright_text": "© 2025 Nice Learning",
+        "scroll_to_top_visibility": true,
+        "output": {
+            "debug_footer_html": "<div>Debug info</div>",
+            "standard_end_of_body_html": "<script>Some script</script>"
+        }
+    }
+}}
+
+
+<div class="footer-area" role="contentinfo">
+   <div class="nice-footer-container">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-4 col-sm-12">
+               <div class="nice-footer-logo-container">
+                  <div class="nice-footer-logo">
+                     <a href="{{config.wwwroot}}">
+                     {{#hasfooterlogo}}
+                     <img src="{{footer_logo}}" alt="{{sitename}}" width="{{footer_logo_width}}">
+                     {{/hasfooterlogo}}
+                     {{^hasfooterlogo}}
+                     {{{ sitename }}}
+                     {{/hasfooterlogo}}
+                     </a>
+                  </div>
+                  <!--End nice-footer-logo-->
+                  <p class="nice-footer-logo-description">
+                     {{footer_description}}
+                  </p>
+               </div>
+               <!--End nice-footer-logo-container-->
+               {{> theme_nice/nice_social_media }}
+            </div>
+            <!--End col-lg-4-->
+            <div class="col-lg-8">
+               <div class="row">
+                  <div class="col-sm-12 col-md-4 col-lg-4 col-lg-4 col-sm-6">
+                     <h5 class="nice-footer-title">
+                        {{footer_column_title_one}}
+                     </h5>
+                     <!--End nice-footer-title -->
+                     {{{footer_column_body_one}}}
+                  </div>
+                  <!--End col-sm-12-->
+                  <div class="col-sm-12 col-md-4 col-lg-4 col-lg-4 col-sm-6">
+                     <h5 class="nice-footer-title">
+                        {{footer_column_title_two}}
+                     </h5>
+                     <!--End nice-footer-title -->
+                     {{{footer_column_body_two}}}
+                  </div>
+                  <!--End col-sm-12-->
+                  <div class="col-sm-12 col-md-4 col-lg-4 col-lg-4 col-sm-6">
+                     <h5 class="nice-footer-title">
+                        {{footer_column_title_three}}
+                     </h5>
+                     <!--End nice-footer-title -->
+                     {{{footer_column_body_three}}}
+                  </div>
+                  <!--End col-sm-12-->
+               </div>
+               <!--End row-->
+            </div>
+            <!--End col-lg-8-->
+         </div>
+         <!--End row-->
+      </div>
+      <!--End container-->
+   </div>
+   <!--End nice-footer-container-->
+   <div class="nice-footer-copyright-container text-center">
+      <p>{{footer_copyright_text}}</p>
+   </div>
+   <!--End null-footer-copyright-container-->
+</div>
+<!--End footer-area-->
+{{#scroll_to_top_visibility}}
+<button class="nice-scroll-to-top-container d-flex align-items-center justify-content-center cursor-pointer" aria-label="Scroll to top">
+<i class="fa-solid fa-arrow-up"></i>
+</button><!-- End nice-scroll-to-top-container -->
+{{/scroll_to_top_visibility}}
+<div class="footer-content-debugging footer-dark bg-dark text-light">
+   <div class="container-fluid footer-dark-inner">
+      {{{ output.debug_footer_html }}}
+   </div>
+</div>
+{{{ output.standard_end_of_body_html }}}

@@ -1,0 +1,38 @@
+:root {
+--nice-hero-one-background: rgba(2, 3, 6, 0.54);
+--nice-hero-one-background-overlay: rgba(231,231,231,.22);
+--nice-hero-two-background-overlay: rgba(114,106,106,.35);
+--nice-hero-three-background-overlay: rgba(0, 0, 0, .5);
+--nice-hero-four-background-overlay: linear-gradient(90deg, #1f5f73 30%,#374c50 80%);
+--nice-hero-about-us-one-background-overlay: rgba(255, 255, 255, .95);
+--nice-hero-about-us-two-background-overlay: rgba(255, 255, 255, .95);
+--nice-image-overlay: [[setting:card_image_overlay]];
+--nice-boxes-one-background-color: #0b1b20e5;
+--nice-boxes-two-background-color: #0b1b20e5;
+--nice-color-black:#030000;
+--nice-color-white: #fff;
+--nice-color-red: #c8102e;
+--nice-color-blue: #0071c5;
+--nice-color-purple: #9147ff;
+--nice-color-green: #008248;
+--nice-color-yellow: #f4b400;
+--nice-color-brown: #592411;
+--nice-color-grey: #4f5964;
+--nice-color-pink: #e76197;
+--nice-color-orange: #f78f1f;
+--nice-color-light-grey: #f6f7f9;
+--nice-text-shadow: 1px 1px 2px var(--nice-color-black);
+--nice-color-main: [[setting:brandcolor]];
+--nice-color-main-hover: color-mix(in srgb, var(--nice-color-main) 80%, black 20%);
+--nice-color-main-focus: color-mix(in srgb, var(--nice-color-main) 60%, black 40%);
+--nice-color-secondary: [[setting:secondarycolor]];
+--nice-border-radius: [[setting:borderradius]]px; 
+--nice-footer-background: [[setting:footer_background]];
+--nice-footer-color: [[setting:footer_color]];
+--nice-scroll-to-top-background: [[setting:scroll_to_top_background]];
+--nice-breadcrumb-background: [[setting:breadcrumbbackground]];
+--nice-breadcrumb-color: [[setting:breadcrumbcolor]];
+--nice-footer-copy-background: [[setting:footer_copy_background]];
+--nice-footer-copy-color: [[setting:footer_copy_color]];
+--nice-box-shadow: [[setting:box]];
+}
