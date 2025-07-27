@@ -91,15 +91,15 @@ class theme_nice_core_course_renderer extends core_course_renderer {
                 if ($childcourse === reset($childrencourses)) {
                     foreach ($childcourse->get_course_overviewfiles() as $file) {
                         $isimage = $file->is_valid_image();
-                        $url = file_encode_url(
-                            "$CFG->wwwroot/pluginfile.php",
-                            '/' . $file->get_contextid() .
-                            '/' . $file->get_component() .
-                            '/' . $file->get_filearea() .
-                            $file->get_filepath() .
+                        $url = moodle_url::make_pluginfile_url(
+                            $file->get_contextid(),
+                            $file->get_component(),
+                            $file->get_filearea(),
+                            null,
+                            $file->get_filepath(),
                             $file->get_filename(),
                             !$isimage
-                        );
+                        )->out();
                         if ($isimage) {
                             $contentimages = '<img class="img-whp" src="' . $url . '" alt="' . $categoryname . '">';
                         }
@@ -248,12 +248,15 @@ class theme_nice_core_course_renderer extends core_course_renderer {
         $overviewfiles = [];
         foreach ($course->get_course_overviewfiles() as $file) {
             $overviewfiles[] = [
-                'fileurl' => file_encode_url(
-                    "$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_filename(),
+                'fileurl' => moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    null,
+                    $file->get_filepath(),
+                    $file->get_filename(),
                     !$file->is_valid_image()
-                ),
+                )->out(),
                 'isimage' => $file->is_valid_image(),
                 'filename' => $file->get_filename(),
             ];
