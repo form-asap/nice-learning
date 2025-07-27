@@ -32,13 +32,13 @@ require_once($CFG->dirroot. '/course/renderer.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
 /**
- * Class niceCourseHandler
+ * Class theme_nice_course_handler
  *
  * Handles fetching course and category data for theme_nice.
  *
  * @package theme_nice
  */
-class niceCourseHandler {
+class theme_nice_course_handler {
 
     /**
      * Fetches detailed course information by course ID.
@@ -49,7 +49,7 @@ class niceCourseHandler {
      * @param int $courseid The ID of the course to retrieve.
      * @return stdClass|null An object containing course details, or null if course not found.
      */
-    public function nicegetcoursedetails($courseid) {
+    public function theme_nice_get_course_details($courseid) {
         global $CFG, $COURSE, $USER, $DB, $SESSION, $SITE, $PAGE, $OUTPUT;
 
         $courseid = (int)$courseid;
@@ -133,33 +133,40 @@ class niceCourseHandler {
             $contentimages = $contentfiles = $CFG->wwwroot . '/theme/nice/images/niceBg.png';
             foreach ($courseelement->get_course_overviewfiles() as $file) {
                 $isimage = $file->is_valid_image();
-                $url = file_encode_url("{$CFG->wwwroot}/pluginfile.php",
-                    '/'. $file->get_contextid(). '/'. $file->get_component(). '/'.
-                    $file->get_filearea(). $file->get_filepath(). $file->get_filename(), !$isimage);
+                $url = moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    null,
+                    $file->get_filepath(),
+                    $file->get_filename(),
+                    !$isimage
+                )->out();
+
                 if ($isimage) {
                     $contentimages = $url;
                 }
             }
 
             // Map data to niceCourse object.
-            $nicecourse->courseId = $courseid;
+            $nicecourse->course_id = $courseid;
             $nicecourse->enrolments = $courseenrolmentcount;
-            $nicecourse->categoryId = $categoryid;
-            $nicecourse->categoryName = $categoryname;
-            $nicecourse->categoryUrl = $categoryurl;
-            $nicecourse->shortName = format_text($courseshortname, FORMAT_HTML, ['filter' => true]);
-            $nicecourse->fullName = format_text($coursefullname, FORMAT_HTML, ['filter' => true]);
+            $nicecourse->category_id = $categoryid;
+            $nicecourse->category_name = $categoryname;
+            $nicecourse->category_url = $categoryurl;
+            $nicecourse->short_name = format_text($courseshortname, FORMAT_HTML, ['filter' => true]);
+            $nicecourse->full_name = format_text($coursefullname, FORMAT_HTML, ['filter' => true]);
             $nicecourse->summary = $coursesummary;
-            $nicecourse->imageUrl = $contentimages;
+            $nicecourse->image_url = $contentimages;
             $nicecourse->format = $courseformat;
             $nicecourse->announcements = $courseannouncements;
-            $nicecourse->startDate = userdate($coursestartdate, get_string('strftimedatefullshort', 'langconfig'));
-            $nicecourse->endDate = userdate($courseenddate, get_string('strftimedatefullshort', 'langconfig'));
+            $nicecourse->start_date = userdate($coursestartdate, get_string('strftimedatefullshort', 'langconfig'));
+            $nicecourse->end_date = userdate($courseenddate, get_string('strftimedatefullshort', 'langconfig'));
             $nicecourse->visible = $coursevisible;
             $nicecourse->created = userdate($coursecreated, get_string('strftimedatefullshort', 'langconfig'));
             $nicecourse->updated = userdate($courseupdated, get_string('strftimedatefullshort', 'langconfig'));
             $nicecourse->requested = $courserequested;
-            $nicecourse->enrolmentLink = $enrolmentlink;
+            $nicecourse->enrolment_link = $enrolmentlink;
             $nicecourse->url = $courseurl;
             $nicecourse->teachers = $nicecoursecontacts;
             $nicecourse->course_price = $courseprice;
@@ -168,12 +175,12 @@ class niceCourseHandler {
 
             // Prepare a render object with minimal HTML.
             $nicerender = new \stdClass();
-            $nicerender->updatedDate        = userdate($courseupdated, get_string('strftimedatefullshort', 'langconfig'));
-            $nicerender->title              = '<h3><a href="'. $nicecourse->url .'">'. $nicecourse->fullName .'</a></h3>';
-            $nicerender->fullName           = $nicecourse->fullName;
-            $nicerender->url                = $nicecourse->url;
-            $nicerender->courseImage        = '<img class="" src="'. $contentimages .'" alt="'.$nicecourse->fullName.'">';
-            $nicerender->ImageUrl = $contentimages;
+            $nicerender->updated_date     = userdate($courseupdated, get_string('strftimedatefullshort', 'langconfig'));
+            $nicerender->title            = '<h3><a href="'. $nicecourse->url .'">'. $nicecourse->full_name .'</a></h3>';
+            $nicerender->full_name        = $nicecourse->full_name;
+            $nicerender->url              = $nicecourse->url;
+            $nicerender->course_image     = '<img class="" src="'. $contentimages .'" alt="'.$nicecourse->full_name.'">';
+            $nicerender->image_url = $contentimages;
             /* @niceBreak */
             $nicecourse->niceRender = $nicerender;
             return $nicecourse;
@@ -191,7 +198,7 @@ class niceCourseHandler {
      * @param int|null $maxlength Optional maximum length for the summary text.
      * @return string|null Formatted summary text, or null if unavailable.
      */
-    public function nicegetcoursedescription($courseid, $maxlength) {
+    public function theme_nice_get_course_description($courseid, $maxlength) {
         global $CFG, $COURSE, $USER, $DB, $SESSION, $SITE, $PAGE, $OUTPUT;
 
         if ($DB->record_exists('course', ['id' => $courseid])) {
@@ -221,7 +228,7 @@ class niceCourseHandler {
      *
      * @return array Array of category names indexed by category ID.
      */
-    public function nicelistcategories() {
+    public function theme_nice_list_categories() {
         global $DB, $CFG;
         $topcategory = core_course_category::top();
         $topcategorykids = $topcategory->get_children();
@@ -243,7 +250,7 @@ class niceCourseHandler {
      * @param int $categoryid The category ID.
      * @return stdClass|null Category details object or null if not found.
      */
-    public function nicegetcategorydetails($categoryid) {
+    public function theme_nice_get_category_details($categoryid) {
         global $CFG, $COURSE, $USER, $DB, $SESSION, $SITE, $PAGE, $OUTPUT;
 
         if ($DB->record_exists('course_categories', ['id' => $categoryid])) {
@@ -301,13 +308,16 @@ class niceCourseHandler {
                     if ($childcourse === reset($categorycourses)) {
                         foreach ($childcourse->get_course_overviewfiles() as $file) {
                             if ($file->is_valid_image()) {
-                                $imagepath = '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                                    $file->get_filearea() . $file->get_filepath() . $file->get_filename();
-                                $imageurl = file_encode_url(
-                                    $CFG->wwwroot . '/pluginfile.php',
-                                    $imagepath,
-                                    false
-                                );
+                                $imageurl = moodle_url::make_pluginfile_url(
+                                    $file->get_contextid(),
+                                    $file->get_component(),
+                                    $file->get_filearea(),
+                                    null,
+                                    $file->get_filepath(),
+                                    $file->get_filename(),
+                                    false // force download = false for inline display
+                                )->out();
+
                                 $outputimage = $imageurl;
                                 // Use the first image found.
                                 break;
@@ -318,18 +328,18 @@ class niceCourseHandler {
             }
 
             // Map category details to the object.
-            $nicecategory->categoryId = $categoryid;
-            $nicecategory->categoryName = $categoryname;
-            $nicecategory->categoryDescription = $categorydescription;
-            $nicecategory->categorySummary = $categorysummary;
-            $nicecategory->isVisible = $isvisible;
-            $nicecategory->categoryUrl = $categoryurl;
-            $nicecategory->courseImage = $outputimage;
-            $nicecategory->ImageUrl = $outputimage;
+            $nicecategory->category_id = $categoryid;
+            $nicecategory->category_name = $categoryname;
+            $nicecategory->category_description = $categorydescription;
+            $nicecategory->category_summary = $categorysummary;
+            $nicecategory->is_visible = $isvisible;
+            $nicecategory->category_url = $categoryurl;
+            $nicecategory->course_image = $outputimage;
+            $nicecategory->image_url = $outputimage;
             $nicecategory->courses = $categorycourses;
-            $nicecategory->coursesCount = $categorycoursescount;
+            $nicecategory->courses_count = $categorycoursescount;
             $nicecategory->subcategories = $categorysubcategories;
-            $nicecategory->subcategoriesCount = $categorysubcategoriescount;
+            $nicecategory->subcategories_count = $categorysubcategoriescount;
             return $nicecategory;
 
         }
@@ -344,7 +354,7 @@ class niceCourseHandler {
      * @param int $maxnum Maximum number of categories to return.
      * @return stdClass[] Array of category detail objects.
      */
-    public function nicegetexamplecategories($maxnum) {
+    public function theme_nice_get_example_categories($maxnum) {
         global $CFG, $DB;
 
         $nicecategories = $DB->get_records(
@@ -357,7 +367,7 @@ class niceCourseHandler {
         );
         $nicereturn = [];
         foreach ($nicecategories as $nicecategory) {
-            $nicereturn[] = $this->niceGetCategoryDetails($nicecategory->id);
+            $nicereturn[] = $this->theme_nice_get_category_details($nicecategory->id);
         }
         return $nicereturn;
     }
@@ -370,14 +380,14 @@ class niceCourseHandler {
      * @param int $maxnum Maximum number of categories to return.
      * @return int[] Array of category IDs.
      */
-    public function nicegetexamplecategoriesids($maxnum) {
+    public function theme_nice_get_example_category_ids($maxnum) {
         global $CFG, $DB;
 
-        $nicecategories = $this->niceGetExampleCategories($maxnum);
+        $nicecategories = $this->theme_nice_get_example_categories($maxnum);
 
         $nicereturn = [];
         foreach ($nicecategories as $key => $nicecategory) {
-            $nicereturn[] = $nicecategory->categoryId;
+            $nicereturn[] = $nicecategory->category_id;
         }
         return $nicereturn;
     }
