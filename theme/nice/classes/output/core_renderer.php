@@ -312,24 +312,29 @@ class core_renderer extends \core_renderer {
             $html .= html_writer::start_div('btn-group header-button-group');
             foreach ($contextheader->additionalbuttons as $button) {
                 if (!isset($button->page)) {
-                    // Include js for messaging.
+                    // Include JS for messaging functionality.
                     if ($button['buttontype'] === 'togglecontact') {
                         \core_message\helper::togglecontact_requirejs();
                     }
                     if ($button['buttontype'] === 'message') {
                         \core_message\helper::messageuser_requirejs();
                     }
-                    $image = $this->pix_icon($button['formattedimage'], $button['title'], 'moodle', [
+
+                    // Use Moodle's default core icons. Prefer `i/message` for message icon.
+                    $iconkey = ($button['buttontype'] === 'message') ? 'i/message' : $button['image'];
+                    $image = $this->pix_icon($iconkey, $button['title'], 'core', [
                         'class' => 'iconsmall',
                         'role' => 'presentation',
                     ]);
                     $image .= html_writer::span($button['title'], 'header-button-title');
                 } else {
+                    // Fallback for image URLs from external sources.
                     $image = html_writer::empty_tag('img', [
                         'src' => $button['formattedimage'],
                         'role' => 'presentation',
                     ]);
                 }
+
                 $html .= html_writer::link($button['url'], html_writer::tag('span', $image), $button['linkattributes']);
             }
             $html .= html_writer::end_div();
