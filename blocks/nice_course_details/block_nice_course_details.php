@@ -91,11 +91,11 @@ class block_nice_course_details extends block_base {
         $this->content->main_title = !empty($this->config->main_title) ? $this->config->main_title : '';
         $formattedtitle = format_text($this->content->main_title, FORMAT_HTML, ['filter' => true]);
 
-        $nicecoursehandler = new niceCourseHandler();
-        $nicecourse = $nicecoursehandler->niceGetCourseDetails($COURSE->id);
+        $nicecoursehandler = new theme_nice_course_handler();
+        $nicecourse = $nicecoursehandler->theme_nice_get_course_details($COURSE->id);
 
-        $startdatetime = DateTime::createFromFormat('d/m/y', $nicecourse->startDate);
-        $enddatetime = DateTime::createFromFormat('d/m/y', $nicecourse->endDate);
+        $startdatetime = DateTime::createFromFormat('d/m/y', $nicecourse->start_date);
+        $enddatetime = DateTime::createFromFormat('d/m/y', $nicecourse->end_date);
 
         $formattedstartdate = $startdatetime ? $startdatetime->format('F, d Y') : '';
         $formattedenddate = $enddatetime ? $enddatetime->format('F, d Y') : '';
@@ -131,7 +131,7 @@ class block_nice_course_details extends block_base {
                 <div>
                   <span>' . $courseshorttext . '</span>
                 </div>
-                <span class="nice-course-details-content-wrap">' . $nicecourse->shortName . '</span>
+                <span class="nice-course-details-content-wrap">' . $nicecourse->short_name . '</span>
               </div>';
         }
 
@@ -142,8 +142,8 @@ class block_nice_course_details extends block_base {
                   <div>
                       <span>' . $categorytext . '</span>
                   </div>
-                  <a href="' . $nicecourse->categoryUrl . '">
-                      <span class="nice-course-details-content-wrap">' . $nicecourse->categoryName . '</span>
+                  <a href="' . $nicecourse->category_url . '">
+                      <span class="nice-course-details-content-wrap">' . $nicecourse->category_name . '</span>
                   </a>
               </div>';
         }
@@ -166,7 +166,7 @@ class block_nice_course_details extends block_base {
                         <h5>' . $formattedtitle . '</h5>
                     </div>
                     <div class="nice-course-details-image-container">
-                        <img class="img-whp" src="' . $nicecourse->imageUrl . '" alt="' . $nicecourse->fullName . '" />
+                        <img class="img-whp" src="' . $nicecourse->image_url . '" alt="' . $nicecourse->full_name . '" />
                         ' . $showpricecontent . '
                     </div>
                     <div class="nice-course-details-content-container">
