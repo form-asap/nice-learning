@@ -90,5 +90,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+- **v1.1**
+  - Fixed: `Undefined variable $DB` warning by declaring `global $DB` where needed.
+  - Fixed: `Exception - Call to a member function update_record() on null` caused by missing `$DB` reference.
+
 - **v1.0**
   - Initial release
