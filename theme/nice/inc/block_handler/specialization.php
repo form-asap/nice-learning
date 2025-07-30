@@ -99,6 +99,7 @@ $nicecollection = array_merge(
 // If the block has no saved configuration yet,
 // assign it to a default region based on its block type.
 if (empty($this->config)) {
+    global $DB;
     if (in_array($niceblocktype, $nicecollectionfullwidthtop)) {
         $this->instance->defaultregion = 'fullwidth-top';
         $this->instance->region = 'fullwidth-top';
