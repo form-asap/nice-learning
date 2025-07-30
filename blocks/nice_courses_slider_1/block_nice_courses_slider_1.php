@@ -167,17 +167,17 @@ class block_nice_courses_slider_1 extends block_base {
 
             foreach ($courses as $course) {
                 if ($DB->record_exists('course', ['id' => $course->id])) {
-                    $nicecoursehandler = new niceCourseHandler();
-                    $nicecourse = $nicecoursehandler->niceGetCourseDetails($course->id);
+                    $nicecoursehandler = new theme_nice_course_handler();
+                    $nicecourse = $nicecoursehandler->theme_nice_get_course_details($course->id);
                     $nicecoursedescription = $nicecoursehandler
-                        ->niceGetCourseDescription($course->id, 100);
+                        ->theme_nice_get_course_description($course->id, 100);
 
                     $shortnamecontent = '';
                     if ($this->config->show_shortname) {
                         $shortnamecontent = '
                             <div class="nice-course-card-sub-title-container d-flex align-items-center">
                                 <i class="fa-solid fa-book"></i>
-                                <span>' . $nicecourse->shortName . '</span>
+                                <span>' . $nicecourse->short_name . '</span>
                             </div>';
                     }
 
@@ -196,14 +196,14 @@ class block_nice_courses_slider_1 extends block_base {
                             <div class="nice-course-card-container">
                                 <div class="nice-course-card overflow-hidden nice-border-radius">
                                     <div class="nice-course-card-image-container position-relative">'
-                                        . $nicecourse->niceRender->courseImage . '
+                                        . $nicecourse->niceRender->course_image . '
                                         <div class="nice-course-card-image-overlay position-absolute"></div>
                                     </div>
                                     <div class="nice-course-card-content-container nice-background-white">'
                                         . $shortnamecontent . '
                                         <div class="nice-course-card-title-container">
                                             <div class="h4 m-0 fw-bold">'
-                                                . $nicecourse->fullName . '
+                                                . $nicecourse->full_name . '
                                             </div>
                                         </div>
                                         <div class="nice-course-card-description-container">'
