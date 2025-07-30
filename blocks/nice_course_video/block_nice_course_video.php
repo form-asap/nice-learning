@@ -145,8 +145,8 @@ class block_nice_course_video extends block_base {
             htmlspecialchars($embedurl) .
             '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
 
-        $nicecoursehandler = new niceCourseHandler();
-        $nicecourse = $nicecoursehandler->niceGetCourseDetails($COURSE->id);
+        $nicecoursehandler = new theme_nice_course_handler();
+        $nicecourse = $nicecoursehandler->theme_nice_get_course_details($COURSE->id);
 
         $context = context_course::instance($COURSE->id);
         $userfields = "u.id, u.picture, u.firstname, u.lastname, u.firstnamephonetic,
@@ -229,12 +229,12 @@ class block_nice_course_video extends block_base {
                 <div class="nice-course-video-category-container">
                     <span class="nice-course-video-content-title">'
                         . $categorytext . '</span>
-                    <a href="' . $nicecourse->categoryUrl . '">
+                    <a href="' . $nicecourse->category_url . '">
                         <div class="nice-course-video-category-icon">
                             <i class="fa-solid fa-book-open"></i>
                         </div>
                         <span class="fw-bold">'
-                            . $nicecourse->categoryName . '</span>
+                            . $nicecourse->category_name . '</span>
                     </a>
                 </div>';
         }
@@ -245,7 +245,7 @@ class block_nice_course_video extends block_base {
                     <span class="nice-course-video-content-title">'
                         . $studentstext . '</span>
                     <a href="' . $CFG->wwwroot .
-                        '/user/index.php?id=' . $nicecourse->courseId . '">
+                        '/user/index.php?id=' . $nicecourse->course_id . '">
                         <div class="nice-course-video-enrollment-icon">
                             <i class="fa-solid fa-users"></i>
                         </div>
