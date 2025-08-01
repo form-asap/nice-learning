@@ -299,21 +299,14 @@
 
 .login a:focus {
     color: var(--nice-color-white);
-    background-color: #174655;
-    border-color: #143e4b;
-    box-shadow: 0 0 0 0.2rem rgb(65 119 136 / 50%);
+    background-color: var(--nice-color-main-focus);
+    border-color: var(--nice-color-main-focus);
 }
 
 @media (max-width: 576px) {
     .upper-bar .login a {
         margin-top: 10px;
     }
-}
-
-.btn-primary:hover {
-    color: var(--nice-color-white);
-    background-color: #174655;
-    border-color: #143e4b;
 }
 
 .login-container {
@@ -1231,7 +1224,10 @@
 }
 
 .nice-about-us-4 .nice-about-us-box-image-container {
-    height: 25rem;
+    max-height: 25rem;
+    overflow: hidden;
+    border-radius: var(--nice-border-radius);
+    height: 100%;
 }
 
 .nice-about-us-4 .nice-about-us-main-title {
