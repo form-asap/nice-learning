@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'theme_nice';
 
 // This is the version of the plugin.
-$plugin->version = 2025073100; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2025080200; // The current plugin version (Date: YYYYMMDDXX).
 
 // This is the version of Moodle this plugin requires.
 $plugin->requires = 2025041400;
