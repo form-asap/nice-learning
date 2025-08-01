@@ -39,7 +39,7 @@ $plugin->dependencies = [
 ];
 
 // This is the named version.
-$plugin->release = '1.1';
+$plugin->release = '1.2';
 
 // This version's maturity level.
 $plugin->maturity = MATURITY_STABLE;
