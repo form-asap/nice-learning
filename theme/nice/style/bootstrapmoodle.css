@@ -39,6 +39,11 @@
     border-color: var(--nice-color-main-hover);
 }
 
+.btn-primary:focus {
+    background-color: var(--nice-color-main-focus);
+    border-color: var(--nice-color-main-focus);
+}
+
 .alert {
     border-radius: var(--nice-border-radius);
 }
