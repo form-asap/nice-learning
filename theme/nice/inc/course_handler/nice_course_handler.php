@@ -130,7 +130,7 @@ class theme_nice_course_handler {
             }
 
             // Process course overview image.
-            $contentimages = $contentfiles = $CFG->wwwroot . '/theme/nice/images/course_default.jpg';
+            $contentimages = $contentfiles = $CFG->wwwroot . '/theme/nice/pix/course_default.jpg';
             foreach ($courseelement->get_course_overviewfiles() as $file) {
                 $isimage = $file->is_valid_image();
                 $url = moodle_url::make_pluginfile_url(
