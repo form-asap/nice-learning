@@ -90,6 +90,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.3
+- Added activity navigation to course pages (Previous, Next, and Jump-to dropdown).
+
 ## v1.2
 - Fixed minor CSS styling issues.
 - Corrected the default placeholder course image path.
