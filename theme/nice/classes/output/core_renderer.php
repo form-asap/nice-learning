@@ -569,4 +569,30 @@ class core_renderer extends \core_renderer {
         }
         return $firstview;
     }
+
+    /**
+     * Renders a Mustache template with additional context for theme_nice.
+     *
+     * This method overrides the default render_from_template() behavior
+     * to inject activity navigation buttons (previous, next, and jump-to)
+     * into the context when rendering the main course layout template.
+     *
+     * @param string $templatename The name of the Mustache template to render.
+     *                             Example: 'theme_nice/columns2'.
+     * @param array $context The data to be passed into the Mustache template.
+     * @return string The rendered HTML content.
+     */
+    public function render_from_template($templatename, $context) {
+        global $PAGE;
+
+        // Add navigation buttons for activity pages
+        if (!empty($PAGE->cm) && $templatename === 'theme_nice/columns2') {
+            $navlinks = theme_nice_get_prev_next_links($PAGE->cm);
+            if ($navlinks) {
+                $context['navbuttons'] = $navlinks;
+            }
+        }
+
+        return parent::render_from_template($templatename, $context);
+    }
 }
