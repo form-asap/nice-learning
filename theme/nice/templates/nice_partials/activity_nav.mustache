@@ -1,0 +1,100 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template theme_nice/nice_partials/activity_navigation
+
+    Renders previous/next activity navigation buttons and jump-to select box.
+
+    Context variables required:
+    * navbuttons.prev.url - URL to previous activity (optional)
+    * navbuttons.prev.name - Label for previous activity (optional)
+    * navbuttons.next.url - URL to next activity (optional)
+    * navbuttons.next.name - Label for next activity (optional)
+    * navbuttons.jumpto - List of activities with:
+        - url: URL to activity
+        - name: Activity name
+        - index: 1-based index
+        - current: boolean
+
+    Example context (JSON):
+    {
+        "navbuttons": {
+            "prev": {
+                "url": "mod/lesson/view.php?id=101",
+                "name": "Previous Activity"
+            },
+            "next": {
+                "url": "mod/quiz/view.php?id=102",
+                "name": "Next Quiz"
+            },
+            "jumpto": [
+                {
+                    "url": "mod/page/view.php?id=100",
+                    "name": "Introduction",
+                    "index": 1,
+                    "current": false
+                },
+                {
+                    "url": "mod/quiz/view.php?id=102",
+                    "name": "Next Quiz",
+                    "index": 2,
+                    "current": true
+                }
+            ],
+            "current": {
+                "index": 2,
+                "total": 5
+            }
+        }
+    }
+}}
+
+{{#navbuttons}}
+    <div class="nice-activity-navigation nice-background-light-grey p-3 nice-border-radius mt-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        {{#prev}}
+        <a href="{{url}}" class="btn btn-outline-secondary">
+            &larr; {{name}}
+        </a>
+        {{/prev}}
+        {{^prev}}
+        <span class="invisible btn btn-outline-secondary">&larr;</span>
+        {{/prev}}
+
+        <div class="activity-jumpto mx-auto">
+            <form method="get" onchange="this.submit()" class="d-flex align-items-center gap-2">
+                <label for="activity-jumpto" class="mb-0">{{#str}}jumpto, moodle{{/str}}:</label>
+                <select id="activity-jumpto" name="redirecturl" class="form-select">
+                    {{#jumpto}}
+                    <option value="{{url}}" {{#current}}selected{{/current}}>
+                        {{index}}. {{name}}
+                    </option>
+                    {{/jumpto}}
+                </select>
+            </form>
+        </div>
+
+        {{#next}}
+        <a href="{{url}}" class="btn btn-outline-secondary ms-auto">
+            {{name}} &rarr;
+        </a>
+        {{/next}}
+        {{^next}}
+        <span class="invisible btn btn-outline-secondary">&rarr;</span>
+        {{/next}}
+    </div>
+{{/navbuttons}}
