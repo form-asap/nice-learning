@@ -240,3 +240,80 @@ function theme_nice_pluginfile($course, $cm, $context, $filearea, $args, $forced
         send_file_not_found();
     }
 }
+
+/**
+ * Get previous, next, and jump-to navigation links for activities
+ *
+ * @param stdClass $cm The course module object
+ * @return array|null Array with navigation data or null if no CM
+ */
+function theme_nice_get_prev_next_links($cm) {
+    if (!$cm || !$cm->course) {
+        return null;
+    }
+
+    $modinfo = get_fast_modinfo($cm->course);
+    $cms = $modinfo->get_cms();
+
+    $found = false;
+    $prev = $next = null;
+    $jumpto = [];
+    $currentindex = 0;
+
+    $visiblecms = [];
+    foreach ($cms as $thiscm) {
+        if (!$thiscm->uservisible) {
+            continue;
+        }
+        $visiblecms[] = $thiscm;
+    }
+
+    // Find current, previous, and next
+    foreach ($visiblecms as $index => $thiscm) {
+        if ($thiscm->id == $cm->id) {
+            $currentindex = $index;
+            $found = true;
+            
+            // Get previous
+            if ($index > 0) {
+                $prev = $visiblecms[$index - 1];
+            }
+            
+            // Get next
+            if ($index < count($visiblecms) - 1) {
+                $next = $visiblecms[$index + 1];
+            }
+            break;
+        }
+    }
+
+    // Build jump-to list
+    foreach ($visiblecms as $index => $thiscm) {
+        $jumpto[] = [
+            'id' => $thiscm->id,
+            'name' => $thiscm->get_formatted_name(),
+            'url' => $thiscm->url->out(false),
+            'current' => ($thiscm->id == $cm->id),
+            'index' => $index + 1,
+            'modname' => get_string('modulename', $thiscm->modname),
+            'icon' => $thiscm->get_icon_url()
+        ];
+    }
+
+    return [
+        'prev' => $prev ? [
+            'url' => $prev->url->out(false), 
+            'name' => $prev->get_formatted_name()
+        ] : null,
+        'next' => $next ? [
+            'url' => $next->url->out(false), 
+            'name' => $next->get_formatted_name()
+        ] : null,
+        'jumpto' => $jumpto,
+        'current' => [
+            'name' => $cm->get_formatted_name(),
+            'index' => $currentindex + 1,
+            'total' => count($visiblecms)
+        ]
+    ];
+}
