@@ -136,8 +136,7 @@ $templatecontext = [
     'dashboard_link_visibility'     => $dashboardlinkvisibility,
     'is_dashboard'                  => $logourl == '1' ? true : false,
     'dashboard_string'              => get_string('myhome'),
-
-
+    'navbuttons'                    => $PAGE->cm ? theme_nice_get_prev_next_links($PAGE->cm) : null,
 
 
 ];
