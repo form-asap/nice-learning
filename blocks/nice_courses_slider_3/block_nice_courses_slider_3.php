@@ -177,7 +177,8 @@ class block_nice_courses_slider_3 extends block_base {
             $chelper = new coursecat_helper();
 
             foreach ($courses as $course) {
-                if ($DB->record_exists('course', ['id' => $course->id])) {
+                $courseinfo = $DB->get_record('course', ['id' => $course->id], 'id, visible');
+                if ($courseinfo && $courseinfo->visible) {
                     $nicecoursehandler = new theme_nice_course_handler();
                     $nicecourse = $nicecoursehandler->theme_nice_get_course_details($course->id);
                     $nicecoursedescription = $nicecoursehandler
