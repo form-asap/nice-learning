@@ -145,6 +145,13 @@ class block_nice_categories_page_1 extends block_base {
 
         if (!empty($this->config->categories)) {
             foreach ($this->config->categories as $categoryid) {
+                $categoryrecord = $DB->get_record('course_categories', ['id' => $categoryid], '*');
+
+                // Skip hidden categories
+                if (!$categoryrecord || !$categoryrecord->visible) {
+                    continue;
+                }
+                
                 $categoryobj = core_course_category::get($categoryid);
 
                 $categoryrecord = $DB->get_record(
