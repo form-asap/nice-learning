@@ -120,10 +120,9 @@ class block_nice_courses_slider_1 extends block_base {
                         ['id' => $courserecord->category]
                     );
 
-                    if ($coursecategory) {
-                        $category = core_course_category::get($coursecategory->id);
-                        $courseobj->category = $category->id;
-                        $courseobj->category_name = $category->get_formatted_name();
+                    if ($coursecategory && $coursecategory->visible) {
+                        $courseobj->category = $coursecategory->id;
+                        $courseobj->category_name = $coursecategory->name;
                         $courses->$courseid = $courseobj;
                     }
                 }
