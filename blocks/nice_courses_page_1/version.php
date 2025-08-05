@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'block_nice_courses_page_1';
 
 // This is the named version.
-$plugin->release = '1.1';  
+$plugin->release = '1.2';  
 
 // This is the version of the plugin.
 $plugin->version = 2025080100; // The current plugin version (Date: YYYYMMDDXX).
