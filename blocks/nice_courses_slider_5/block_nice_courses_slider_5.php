@@ -125,15 +125,19 @@ class block_nice_courses_slider_5 extends block_base {
 
                 $coursecategory = $DB->get_record(
                     'course_categories',
-                    ['id' => $courserecord->category]
+                    ['id' => $courserecord->category],
+                    'id, name, visible'
                 );
-
-                $coursecategory = core_course_category::get($coursecategory->id);
-
-                $courseobj->category = $coursecategory->id;
-                $courseobj->category_name = $coursecategory->get_formatted_name();
-
-                $courses->{$courseid} = $courseobj;
+                
+                $context = context_coursecat::instance($coursecategory->id);
+                $canviewhidden = has_capability('moodle/category:viewhiddencategories', $context);
+                
+                if ($coursecategory && ($coursecategory->visible || $canviewhidden)) {
+                    $courseobj->category = $coursecategory->id;
+                    $courseobj->category_name = $coursecategory->name;
+                
+                    $courses->{$courseid} = $courseobj;
+                }
             }
 
             $categories = [];
