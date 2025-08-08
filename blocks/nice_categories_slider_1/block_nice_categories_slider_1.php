@@ -149,13 +149,26 @@ class block_nice_categories_slider_1 extends block_base {
 
         if (!empty($this->config->categories)) {
             foreach ($this->config->categories as $categoryid) {
-                $categoryrecord = $DB->get_record('course_categories', ['id' => $categoryid], '*');
+                $context = context_coursecat::instance($categoryid);
 
-                // Skip hidden categories
-                if (!$categoryrecord || !$categoryrecord->visible) {
+                // Get visibility from DB before calling ->get()
+                $catrecord = $DB->get_record('course_categories', ['id' => $categoryid], 'id, visible');
+
+                if (!$catrecord) {
+                    continue; // Category does not exist.
+                }
+
+                // Check category access
+                if (!has_capability('moodle/category:viewcourselist', $context)) {
                     continue;
                 }
-                
+
+                // If hidden and user lacks viewhiddencategories, skip
+                if (!$catrecord->visible && !has_capability('moodle/category:viewhiddencategories', $context)) {
+                    continue;
+                }
+
+                // Safe to call now
                 $categoryobj = core_course_category::get($categoryid);
 
                 $categoryrecord = $DB->get_record(
@@ -163,8 +176,6 @@ class block_nice_categories_slider_1 extends block_base {
                     ['id' => $categoryid],
                     'description'
                 );
-
-                $context = context_coursecat::instance($categoryid);
 
                 $description = file_rewrite_pluginfile_urls(
                     $categoryrecord->description,
