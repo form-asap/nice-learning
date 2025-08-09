@@ -309,7 +309,7 @@ class core_renderer extends \core_renderer {
 
         // Buttons.
         if (isset($contextheader->additionalbuttons)) {
-            $html .= html_writer::start_div('btn-group header-button-group');
+            $html .= html_writer::start_div('btn-group header-button-group nice-background-light-grey p-3 nice-border-radius');
             foreach ($contextheader->additionalbuttons as $button) {
                 if (!isset($button->page)) {
                     // Include JS for messaging functionality.
@@ -320,9 +320,15 @@ class core_renderer extends \core_renderer {
                         \core_message\helper::messageuser_requirejs();
                     }
 
-                    // Use Moodle's default core icons. Prefer `i/message` for message icon.
-                    $iconkey = ($button['buttontype'] === 'message') ? 'i/message' : $button['image'];
-                    $image = $this->pix_icon($iconkey, $button['title'], 'core', [
+                    if ($button['buttontype'] === 'message') {
+                        $iconkey = 'icons/message';
+                    } else if ($button['buttontype'] === 'togglecontact') {
+                        $iconkey = ($button['image'] === 'removecontact') ? 'icons/delete' : 'icons/add';
+                    } else {
+                        $iconkey = 'icons/add';
+                    }
+
+                    $image = $this->pix_icon($iconkey, $button['title'], 'theme_nice', [
                         'class' => 'iconsmall',
                         'role' => 'presentation',
                     ]);
