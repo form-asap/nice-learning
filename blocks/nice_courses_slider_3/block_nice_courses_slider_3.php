@@ -110,26 +110,47 @@ class block_nice_courses_slider_3 extends block_base {
             $coursesarr = $this->config->courses;
 
             foreach ($coursesarr as $courseid) {
-                $courserecord = $DB->get_record(
-                    'course',
-                    ['id' => $courseid],
-                    'id, category'
-                );
+                $courseobj = new stdClass();
+                $courseobj->id = $courseid;
 
-                if ($courserecord) {
-                    $categoryrecord = $DB->get_record(
-                        'course_categories',
-                        ['id' => $courserecord->category]
-                    );
+                $courserecord = $DB->get_record('course', ['id' => $courseobj->id], 'id, category, visible');
 
-                    if ($categoryrecord && $categoryrecord->visible) {
-                        $courseobj = new stdClass();
-                        $courseobj->id = $courserecord->id;
-                        $courseobj->category = $categoryrecord->id;
-                        $courseobj->category_name = $categoryrecord->name;
+                if (!$courserecord || !$courserecord->visible) {
+                    continue;
+                }
 
-                        $courses->$courseid = $courseobj;
+                $categorycontext = context_coursecat::instance($courserecord->category);
+
+                // Only allow if user can view the course category
+                if (!has_capability('moodle/category:viewcourselist', $categorycontext, $USER)) {
+                    continue;
+                }
+
+                // Allow guests to see only if guest access is enabled
+                if (isguestuser()) {
+                    // Check if the course has guest enrollment enabled
+                    $enrolments = enrol_get_instances($courserecord->id, true);
+                    $hasguestaccess = false;
+
+                    foreach ($enrolments as $enrol) {
+                        if ($enrol->enrol === 'guest' && $enrol->status == ENROL_INSTANCE_ENABLED) {
+                            $hasguestaccess = true;
+                            break;
+                        }
                     }
+
+                    if (!$hasguestaccess) {
+                        continue; // Skip if guest access is not enabled for guests
+                    }
+                }
+
+                // Passed all checks, include the course
+                $courseobj->category = $courserecord->category;
+                $coursecategory = $DB->get_record('course_categories', ['id' => $courseobj->category], 'id, name, visible');
+
+                if ($coursecategory && $coursecategory->visible) {
+                    $courseobj->category_name = $coursecategory->name;
+                    $courses->$courseid = $courseobj;
                 }
             }
 
