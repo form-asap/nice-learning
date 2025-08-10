@@ -90,6 +90,10 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.4
+- Fixed minor CSS styling issues.
+- Added custom icons.
+
 ## v1.3
 - Added activity navigation to course pages (Previous, Next, and Jump-to dropdown).
 
