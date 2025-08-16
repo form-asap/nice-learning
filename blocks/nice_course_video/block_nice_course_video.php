@@ -131,7 +131,7 @@ class block_nice_course_video extends block_base {
                 break;
         }
 
-        $youtubeurl = $this->config->youtube_url ?? '';
+        $youtubeurl = $this->config->video_url ?? $this->config->youtube_url ?? '';
         $videoid = '';
 
         if (preg_match('/youtube\.com.*v=([^&]+)/', $youtubeurl, $matches)) {
