@@ -73,7 +73,7 @@ class block_nice_course_video_edit_form extends block_edit_form {
             'config_video_url',
             'https://www.youtube.com/watch?v=PkZNo7MFNFg'
         );
-        $mform->setType('config_video_url', PARAM_RAW);
+        $mform->setType('config_video_url', PARAM_URL);
 
         // Define editor options for the description.
         $editoroptions = [
