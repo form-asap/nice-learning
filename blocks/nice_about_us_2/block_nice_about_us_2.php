@@ -131,9 +131,7 @@ class block_nice_about_us_2 extends block_base {
             }
         }
 
-        $youtubeurl = !empty($this->config->youtube_url)
-            ? $this->config->youtube_url
-            : '';
+        $youtubeurl = $this->config->video_url ?? $this->config->youtube_url ?? '';
 
         $videoid = '';
         if (preg_match('/youtube\.com.*v=([^&]+)/', $youtubeurl, $matches)) {
