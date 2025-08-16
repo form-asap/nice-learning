@@ -3,6 +3,7 @@
 **Nice Learning** is a completely free custom theme for Moodle 5.x. It’s clean, user-friendly, and fully compatible with right-to-left (RTL) languages. The theme also comes with a set of custom blocks for extended functionality and improved user experience.
 
 [Download theme →](https://moodle.org/plugins/theme_nice)
+
 [View full documentation →](https://docs.nicelearning.org/getting-started/overview)
 
 ---
