@@ -90,7 +90,7 @@ class block_nice_about_us_2_edit_form extends block_edit_form {
         $mform->setDefault('config_video_url', 'https://www.youtube.com/watch?v=PkZNo7MFNFg');
         // Define the data type for the block video URL text input.
         // In this case, it's set to accept raw data, which means Moodle won't perform any additional cleaning or validation.
-        $mform->setType('config_video_url', PARAM_RAW);
+        $mform->setType('config_video_url', PARAM_URL);
 
         // Add a text input element for main link.
         $mform->addElement(
