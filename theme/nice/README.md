@@ -90,6 +90,10 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.5
+- Fixed error `Call to a member function out() on null` in activity navigation.
+- Centered Jump-to dropdown between Previous and Next buttons.
+
 ## v1.4
 - Fixed minor CSS styling issues.
 - Added custom icons.
