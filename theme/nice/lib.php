@@ -248,72 +248,121 @@ function theme_nice_pluginfile($course, $cm, $context, $filearea, $args, $forced
  * @return array|null Array with navigation data or null if no CM
  */
 function theme_nice_get_prev_next_links($cm) {
-    if (!$cm || !$cm->course) {
+    global $PAGE;
+
+    // Basic sanity check.
+    if (!$cm || empty($cm->course)) {
+        return null;
+    }
+
+    // Don't show activity nav on edit pages (e.g., mod/book/edit.php) or pages without a view URL.
+    $currentpage = $PAGE->url ? $PAGE->url->out_as_local_url(false) : '';
+    if ($currentpage && preg_match('@/mod/[^/]+/edit\.php@', $currentpage)) {
         return null;
     }
 
     $modinfo = get_fast_modinfo($cm->course);
-    $cms = $modinfo->get_cms();
+    $cms     = $modinfo->get_cms();
 
-    $found = false;
-    $prev = $next = null;
-    $jumpto = [];
-    $currentindex = 0;
+    // Helper: get a moodle_url for a cm_info, or null if none.
+    $get_url = static function($ci) {
+        // Some Moodle versions expose $ci->url, others prefer get_url().
+        if (isset($ci->url) && $ci->url instanceof moodle_url) {
+            return $ci->url;
+        }
+        if (method_exists($ci, 'get_url')) {
+            $u = $ci->get_url();
+            return ($u instanceof moodle_url) ? $u : null;
+        }
+        return null;
+    };
 
-    $visiblecms = [];
-    foreach ($cms as $thiscm) {
-        if (!$thiscm->uservisible) {
+    // Build a linear list of *visible* cms that actually have a URL (viewable activities).
+    $ordered = [];
+    foreach ($cms as $ci) {
+        if (!$ci->uservisible) {
             continue;
         }
-        $visiblecms[] = $thiscm;
+        $u = $get_url($ci);
+        if ($u instanceof moodle_url) {
+            $ordered[] = $ci;
+        }
     }
 
-    // Find current, previous, and next
-    foreach ($visiblecms as $index => $thiscm) {
-        if ($thiscm->id == $cm->id) {
-            $currentindex = $index;
-            $found = true;
-            
-            // Get previous
-            if ($index > 0) {
-                $prev = $visiblecms[$index - 1];
-            }
-            
-            // Get next
-            if ($index < count($visiblecms) - 1) {
-                $next = $visiblecms[$index + 1];
-            }
+    if (empty($ordered)) {
+        return null;
+    }
+
+    // Find index of current cm in the filtered list.
+    $idx = null;
+    foreach ($ordered as $i => $ci) {
+        if ((int)$ci->id === (int)$cm->id) {
+            $idx = $i;
             break;
         }
     }
 
-    // Build jump-to list
-    foreach ($visiblecms as $index => $thiscm) {
+    // If current cm isn't in the list (e.g., it has no URL on this page), bail gracefully.
+    if ($idx === null) {
+        return null;
+    }
+
+    // Find previous with URL (already filtered), if any.
+    $prev = ($idx > 0) ? $ordered[$idx - 1] : null;
+
+    // Find next with URL, if any.
+    $next = ($idx < count($ordered) - 1) ? $ordered[$idx + 1] : null;
+
+    // Build jumpto list.
+    $jumpto = [];
+    foreach ($ordered as $i => $ci) {
+        $u = $get_url($ci); // guaranteed non-null by filtering, but be extra safe.
+        if (!$u) {
+            continue;
+        }
         $jumpto[] = [
-            'id' => $thiscm->id,
-            'name' => $thiscm->get_formatted_name(),
-            'url' => $thiscm->url->out(false),
-            'current' => ($thiscm->id == $cm->id),
-            'index' => $index + 1,
-            'modname' => get_string('modulename', $thiscm->modname),
-            'icon' => $thiscm->get_icon_url()
+            'id'      => $ci->id,
+            'name'    => $ci->get_formatted_name(),
+            'url'     => $u->out(false),
+            'current' => ((int)$ci->id === (int)$cm->id),
+            'index'   => $i + 1,
+            'modname' => get_string('modulename', $ci->modname),
+            // get_icon_url() can be null; Mustache handles null fine.
+            'icon'    => $ci->get_icon_url()
         ];
     }
 
+    // Format prev/next payloads safely.
+    $prevpayload = null;
+    if ($prev) {
+        $pu = $get_url($prev);
+        if ($pu) {
+            $prevpayload = [
+                'url'  => $pu->out(false),
+                'name' => $prev->get_formatted_name()
+            ];
+        }
+    }
+
+    $nextpayload = null;
+    if ($next) {
+        $nu = $get_url($next);
+        if ($nu) {
+            $nextpayload = [
+                'url'  => $nu->out(false),
+                'name' => $next->get_formatted_name()
+            ];
+        }
+    }
+
     return [
-        'prev' => $prev ? [
-            'url' => $prev->url->out(false), 
-            'name' => $prev->get_formatted_name()
-        ] : null,
-        'next' => $next ? [
-            'url' => $next->url->out(false), 
-            'name' => $next->get_formatted_name()
-        ] : null,
-        'jumpto' => $jumpto,
+        'prev'    => $prevpayload,
+        'next'    => $nextpayload,
+        'jumpto'  => $jumpto,
         'current' => [
-            'name' => $cm->get_formatted_name(),
-            'index' => $currentindex + 1,
-            'total' => count($visiblecms)
+            'name'  => $cm->get_formatted_name(),
+            'index' => $idx + 1,
+            'total' => count($ordered)
         ]
     ];
 }
