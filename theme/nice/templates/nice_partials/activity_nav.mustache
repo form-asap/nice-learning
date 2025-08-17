@@ -65,36 +65,38 @@
 }}
 
 {{#navbuttons}}
-    <div class="nice-activity-navigation nice-background-light-grey p-3 nice-border-radius mt-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+<div class="nice-activity-navigation nice-background-light-grey p-3 nice-border-radius mt-4 d-flex align-items-center flex-wrap gap-3">
+
+    <!-- Prev button -->
+    <div>
         {{#prev}}
-        <a href="{{url}}" class="btn btn-outline-secondary">
-            &larr; {{name}}
-        </a>
+        <a href="{{{url}}}" class="btn btn-outline-secondary">&larr; {{name}}</a>
         {{/prev}}
-        {{^prev}}
-        <span class="invisible btn btn-outline-secondary">&larr;</span>
-        {{/prev}}
-
-        <div class="activity-jumpto mx-auto">
-            <form method="get" onchange="this.submit()" class="d-flex align-items-center gap-2">
-                <label for="activity-jumpto" class="mb-0">{{#str}}jumpto, moodle{{/str}}:</label>
-                <select id="activity-jumpto" name="redirecturl" class="form-select">
-                    {{#jumpto}}
-                    <option value="{{url}}" {{#current}}selected{{/current}}>
-                        {{index}}. {{name}}
-                    </option>
-                    {{/jumpto}}
-                </select>
-            </form>
-        </div>
-
-        {{#next}}
-        <a href="{{url}}" class="btn btn-outline-secondary ms-auto">
-            {{name}} &rarr;
-        </a>
-        {{/next}}
-        {{^next}}
-        <span class="invisible btn btn-outline-secondary">&rarr;</span>
-        {{/next}}
+        {{^prev}}<span class="invisible btn btn-outline-secondary">&larr;</span>{{/prev}}
     </div>
+
+    <!-- Jump-to centered -->
+    <div class="flex-grow-1 d-flex justify-content-center">
+        <div class="activity-jumpto d-flex align-items-center gap-2">
+            <label for="activity-jumpto" class="mb-0">Jump to...:</label>
+            <select id="activity-jumpto" class="form-select"
+                    onchange="if (this.value) { window.location.href = this.value; }">
+                {{#jumpto}}
+                <option value="{{{url}}}" {{#current}}selected{{/current}}>
+                    {{index}}. {{name}}
+                </option>
+                {{/jumpto}}
+            </select>
+        </div>
+    </div>
+
+    <!-- Next button -->
+    <div>
+        {{#next}}
+        <a href="{{{url}}}" class="btn btn-outline-secondary">{{name}} &rarr;</a>
+        {{/next}}
+        {{^next}}<span class="invisible btn btn-outline-secondary">&rarr;</span>{{/next}}
+    </div>
+
+</div>
 {{/navbuttons}}
