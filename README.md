@@ -92,6 +92,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.6
+- Fixed `Exception - htmlspecialchars(): Argument #1 ($string) must be of type string, array given` during course restore.
+  
 ## v1.5
 - Fixed error `Call to a member function out() on null` in activity navigation.
 - Centered Jump-to dropdown between Previous and Next buttons.
