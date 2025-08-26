@@ -513,22 +513,41 @@ class core_renderer extends \core_renderer {
     }
 
     /**
-     * Outputs a heading
-     * @param string $text The text of the heading
-     * @param int $level The level of importance of the heading. Defaulting to 2
-     * @param string $classes A space-separated list of CSS classes
-     * @param string $id An optional ID
-     * @return string the HTML to output.
+     * Outputs a heading element.
+     *
+     * - $classes can be a string of CSS classes or an array of HTML attributes.
+     * - Falls back to parent if $text is not a string.
+     * - $id is applied even if also set in attributes.
+     *
+     * @param string|mixed $text   Heading text, or other content handled by parent.
+     * @param int          $level  Heading level (1–6), default 2.
+     * @param string|array $classes CSS class string or attributes array.
+     * @param string|null  $id     Optional ID.
+     * @return string              Rendered <h*> element HTML.
      */
     public function heading($text, $level = 2, $classes = 'main page-section-title-hide', $id = null) {
-        return html_writer::tag(
-            'h' . $level,
-            format_string($text),
-            [
-                'id' => $id,
-                'class' => $classes,
-            ]
-        );
+        // Build attribute array safely (supports either string class or attribute array).
+        $attributes = [];
+
+        if (is_array($classes)) {
+            $attributes = $classes;
+        } else if (!is_null($classes) && $classes !== '') {
+            $attributes['class'] = $classes;
+        }
+
+        if (!is_null($id)) {
+            // Respect explicit $id, override if also present in $attributes.
+            $attributes['id'] = $id;
+        }
+
+        // Only format when the text is a string; if not, defer to parent (handles objects/templates).
+        if (is_string($text)) {
+            $content = format_string($text);
+            return html_writer::tag('h' . (int)$level, $content, $attributes);
+        } else {
+            // Fallback to core behavior for non-string inputs to avoid type errors.
+            return parent::heading($text, $level, $attributes);
+        }
     }
 
     /**
