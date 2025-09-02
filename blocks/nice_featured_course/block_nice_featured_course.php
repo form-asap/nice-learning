@@ -177,21 +177,45 @@ class block_nice_featured_course extends block_base {
         if (!empty($this->config->course)) {
             $courseid = $this->config->course;
 
-            if ($DB->record_exists('course', ['id' => $courseid])) {
-                $nicecoursehandler = new niceCourseHandler();
-                $nicecourse = $nicecoursehandler->niceGetCourseDetails($courseid);
-                $nicecoursedescription = $nicecoursehandler->niceGetCourseDescription(
-                    $courseid,
-                    150
-                );
+            $courserecord = $DB->get_record('course', ['id' => $courseid], 'id, category, visible');
+            if ($courserecord && $courserecord->visible) {
 
-                $enddatetime = DateTime::createFromFormat('d/m/y', $nicecourse->endDate);
+                $categorycontext = context_coursecat::instance($courserecord->category);
+
+                // Require permission to view category course list (same as slider).
+                if (!has_capability('moodle/category:viewcourselist', $categorycontext, $USER)) {
+                    $this->content->text = '';
+                    return $this->content;
+                }
+
+                // If guest user, only show when guest enrolment is enabled.
+                if (isguestuser()) {
+                    $enrolments = enrol_get_instances($courserecord->id, true);
+                    $hasguestaccess = false;
+                    foreach ($enrolments as $enrol) {
+                        if ($enrol->enrol === 'guest' && $enrol->status == ENROL_INSTANCE_ENABLED) {
+                            $hasguestaccess = true;
+                            break;
+                        }
+                    }
+                    if (!$hasguestaccess) {
+                        $this->content->text = '';
+                        return $this->content;
+                    }
+                }
+
+                $nicecoursehandler = new theme_nice_course_handler();
+                $nicecourse = $nicecoursehandler->theme_nice_get_course_details($courseid);
+                $nicecoursedescription = $nicecoursehandler->theme_nice_get_course_description($courseid, 100);
+
+
+                $enddatetime = DateTime::createFromFormat('d/m/y', $nicecourse->end_date);
                 $formattedenddate = $enddatetime
                     ? $enddatetime->format('F, d Y')
                     : '';
 
                 $userisenrolled = $this->isuserenrolled(
-                    $COURSE->id,
+                    $courseid,   // <-- featured course id
                     $USER->id
                 );
 
@@ -201,21 +225,21 @@ class block_nice_featured_course extends block_base {
                     <div class="row align-items-center ' . $direction . '">
                         <div class="col-lg-7 col-md-6">
                             <div class="nice-featured-course-image-container position-relative">'
-                                . $nicecourse->niceRender->courseImage . '
+                                . $nicecourse->niceRender->course_image . '
                                 <div class="nice-featured-course-image-overlay nice-border-radius position-absolute"></div>
                             </div>
                         </div>
                         <div class="col-lg-5 col-md-6">
                             <div class="nice-featured-course-content-container nice-border-radius nice-background-white">
                                 <div class="nice-featured-course-title-container h4 fw-bold">'
-                                    . $nicecourse->fullName . '
+                                    . $nicecourse->full_name . '
                                 </div>';
 
                 if ($this->config->show_shortname) {
                     $text .= '
                         <div class="nice-featured-course-item d-flex align-items-center nice-background-light-grey nice-border-radius gap-2">
                             <i class="fa-solid fa-book"></i>
-                            <span>' . $nicecourse->shortName . '</span>
+                            <span>' . $nicecourse->short_name . '</span>
                         </div>';
                 }
 
@@ -259,13 +283,13 @@ class block_nice_featured_course extends block_base {
 
                 if (!$userisenrolled) {
                     $text .= '
-                        <a href="' . $nicecourse->enrolmentLink . '" class="btn btn-primary" aria-label="' . $enrollnow . '">'
+                        <a href="' . $nicecourse->enrolment_link . '" class="btn btn-primary" aria-label="' . $enrollnow . '">'
                             . $enrollnow . '
                         </a>
                     </div>';
                 } else {
                     $text .= '
-                        <a href="' . $nicecourse->enrolmentLink . '" class="btn btn-primary" aria-label="' . $view . '">'
+                        <a href="' . $nicecourse->enrolment_link . '" class="btn btn-primary" aria-label="' . $view . '">'
                             . $view . '
                         </a>
                     </div>';
