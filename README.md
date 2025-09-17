@@ -92,6 +92,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.7
+- Enhanced unordered (UL) and ordered (OL) list styling.
+
 ## v1.6
 - Fixed `Exception - htmlspecialchars(): Argument #1 ($string) must be of type string, array given` during course restore.
   
