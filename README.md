@@ -92,6 +92,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.8
+- Fix: Hide redundant page title.
+  
 ## v1.7
 - Enhanced unordered (UL) and ordered (OL) list styling.
 
