@@ -1135,3 +1135,8 @@ ol {
 #page-my-index .nice-dashboard-sidebar-items .usermenu {
     display: none;
 }
+
+#maincontent ~ h2 {
+  display: none;
+}
+
