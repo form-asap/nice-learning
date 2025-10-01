@@ -3322,14 +3322,17 @@
 }
 
 .nice-custom-page-container ol,
-.block ol {
+.block ol,
+#mod_book-chapter ol {
     margin: 10px 0;
     padding: 0;
     line-height: normal;
+    counter-reset: step-counter;
 }
 
 .nice-custom-page-container ol li,
-.block ol li {
+.block ol li,
+#mod_book-chapter ol li {
     line-height: 25px;
     margin: 0 0 25px;
     counter-increment: step-counter;
@@ -3339,21 +3342,13 @@
 }
 
 .nice-custom-page-container ol li::before,
-.block ol li::before {
+.block ol li::before,
+#mod_book-chapter ol li::before {
+    content: counter(step-counter);
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
-}
-
-.nice-custom-page-container ol,
-.block ol {
-    counter-reset: step-counter;
-}
-
-.nice-custom-page-container ol li::before,
-.block ol li::before {
-    content: counter(step-counter);
     margin-right: 5px;
     background-color: var(--nice-color-main);
     color: var(--nice-color-white);
@@ -3373,19 +3368,22 @@
 
 @media screen and (max-width: 767px) {
     .nice-custom-page-container ol,
-    .block ol {
+    .block ol,
+    #mod_book-chapter ol {
         margin: 25px 0 30px;
     }
 
     .nice-custom-page-container ol li,
-    .block ol li {
+    .block ol li,
+    #mod_book-chapter ol li {
         line-height: 22px;
         margin: 0 0 15px;
         padding: 0 0 0 32px;
     }
 
     .nice-custom-page-container ol li::before,
-    .block ol li::before {
+    .block ol li::before,
+    #mod_book-chapter ol li::before {
         padding: 3px 2px;
         top: 0;
         width: 24px;
@@ -3396,19 +3394,22 @@
 }
 
 .nice-custom-page-container ol li:last-child,
-.block ol li:last-child {
+.block ol li:last-child,
+#mod_book-chapter ol li:last-child {
     margin-bottom: 0;
 }
 
 .nice-custom-page-container ul,
-.block ul {
+.block ul,
+#mod_book-chapter ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
 .nice-custom-page-container ul > li::before,
-.block ul > li::before {
+.block ul > li::before,
+#mod_book-chapter ul > li::before {
     content: "●";
     color: var(--nice-color-secondary);
     display: inline-block;
@@ -3417,19 +3418,23 @@
 }
 
 .nice-custom-page-container ul li,
-.block ul li {
+.block ul li,
+#mod_book-chapter ul li {
     margin-top: 10px;
 }
 
 .nice-custom-page-container ul > ul,
-.block ul > ul {
+.block ul > ul,
+#mod_book-chapter ul > ul {
     padding-left: 20px;
 }
 
 .nice-custom-page-container ul > ul > li::before,
 .block ul > ul > li::before,
 .nice-custom-page-container ul ul > li::before,
-.block ul ul > li::before {
+.block ul ul > li::before,
+#mod_book-chapter ul > ul > li::before,
+#mod_book-chapter ul ul > li::before {
     content: "●";
     color: var(--nice-color-secondary);
     opacity: 0.7;
@@ -3439,10 +3444,12 @@
 }
 
 .nice-custom-page-container ul ul,
-.block ul ul {
+.block ul ul,
+#mod_book-chapter ul ul {
     padding-left: 20px;
 }
 
+/* Horizontal rule spacing */
 .nice-custom-page-container hr:last-child {
     margin-bottom: 0;
 }
