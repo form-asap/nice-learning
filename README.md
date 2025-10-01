@@ -92,6 +92,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v1.9
+- Added UL and OL list styling support inside book resource.
+  
 ## v1.8
 - Fix: Hide redundant page title.
   
