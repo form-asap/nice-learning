@@ -91,8 +91,8 @@ GNU GPL v3 or later
 ## Changelog
 
 ## v2.0
-- Enhanced quiz navigation block with container wrapper for improved layout consistency
-- Tested and confirmed compatibility with Moodle 5.1
+- Enhanced quiz navigation block with container wrapper for improved layout consistency.
+- Tested and confirmed compatibility with Moodle 5.1.
   
 ## v1.9
 - Added UL and OL list styling support inside book resource.
