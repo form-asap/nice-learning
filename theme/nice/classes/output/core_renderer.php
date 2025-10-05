@@ -620,4 +620,22 @@ class core_renderer extends \core_renderer {
 
         return parent::render_from_template($templatename, $context);
     }
+
+    /**
+     * Renders a block with container wrapper for quiz navigation
+     *
+     * @param block_contents $bc Block contents
+     * @param string $region Block region
+     * @return string HTML
+     */
+    public function block(\block_contents $bc, $region) {
+        $html = parent::block($bc, $region);
+        
+        // Wrap quiz navigation block in container
+        if (strpos($bc->attributes['id'], 'mod_quiz_navblock') !== false) {
+            $html = html_writer::tag('div', $html, ['class' => 'container']);
+        }
+        
+        return $html;
+    }
 }
