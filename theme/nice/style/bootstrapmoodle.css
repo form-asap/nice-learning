@@ -1137,6 +1137,11 @@ ol {
 }
 
 #maincontent ~ h2 {
-  display: none;
+    display: none;
 }
 
+#mod_quiz_navblock .card-body{
+    padding: 20px 20px 0 20px !important;
+    margin-top: 20px;
+    border-radius: var(--nice-border-radius);
+}
