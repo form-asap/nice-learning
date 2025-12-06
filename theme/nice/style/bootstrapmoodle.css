@@ -185,6 +185,10 @@ button.close:focus,
     max-width: 100%;
 }
 
+.dropdown-menu.show {
+    z-index: 9999;
+}
+
 .filemanager-container,
 .fp-navbar {
     margin-bottom: 10px;
