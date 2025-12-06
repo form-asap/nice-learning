@@ -90,6 +90,9 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v2.1
+- Increased z-index to ensure Moodle dropdown menus appear above other UI elements.
+  
 ## v2.0
 - Enhanced quiz navigation block with container wrapper for improved layout consistency.
 - Tested and confirmed compatibility with Moodle 5.1.
