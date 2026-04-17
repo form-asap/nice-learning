@@ -55,7 +55,7 @@ $page->add($setting);
 $name = 'theme_nice/footer_description';
 $title = get_string('footer_description', 'theme_nice');
 $description = get_string('footer_description_desc', 'theme_nice');
-$default = 'Nice learning it is a free Moodle theme';
+$default = 'Nice Learning is a modern theme for Moodle';
 $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_RAW);
 $setting->set_updatedcallback('theme_reset_all_caches');
 $page->add($setting);
