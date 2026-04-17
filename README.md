@@ -92,6 +92,12 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v2.2
+- Resolved TinyMCE modal conflict by removing navbar popover `z-index`.  
+- Enhanced tab navigation design for the Tab block.  
+- Fixed tab navigation issues in Moodle 5 (Bootstrap 5 compatibility).  
+- Tested and confirmed compatibility with Moodle 5.2.
+  
 ## v2.1
 - Increased z-index to ensure Moodle dropdown menus appear above other UI elements.
   
