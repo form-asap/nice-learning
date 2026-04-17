@@ -158,7 +158,7 @@ class block_nice_tabs extends block_base {
 
             $this->content->text .= '
         <li class="nav-item">
-            <a class="nav-link ' . ($i == 1 ? 'active' : '') . '" data-toggle="tab" href="#tabs-' . $i . '" role="tab">'
+            <a class="nav-link ' . ($i == 1 ? 'active' : '') . '" data-bs-toggle="tab" data-bs-target="#tabs-' . $i . '" role="tab">'
             . $title . '</a>
         </li>';
         }
