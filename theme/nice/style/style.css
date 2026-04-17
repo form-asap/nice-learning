@@ -219,7 +219,6 @@
 
 .navbar .popover-region-container {
     top: 35px !important;
-    z-index: 999999;
 }
 
 .popover-region-header-container {
@@ -2163,6 +2162,14 @@
 
 .nice-tabs .nav-tabs {
     gap: 15px;
+}
+
+.nice-tabs .nav-tabs .nav-item {
+    margin-top: 0;
+}
+
+.nice-tabs .nav-tabs .nav-item::before {
+    content:none;
 }
 
 .nice-tabs .nav-link {
