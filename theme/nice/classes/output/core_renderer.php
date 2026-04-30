@@ -517,6 +517,8 @@ class core_renderer extends \core_renderer {
      *
      * - $classes can be a string of CSS classes or an array of HTML attributes.
      * - Falls back to parent if $text is not a string.
+     * - If $text contains HTML, falls back to parent implementation to preserve
+     *   core Moodle structure (e.g. quiz editor, activity headers).
      * - $id is applied even if also set in attributes.
      *
      * @param string|mixed $text   Heading text, or other content handled by parent.
@@ -525,27 +527,44 @@ class core_renderer extends \core_renderer {
      * @param string|null  $id     Optional ID.
      * @return string              Rendered <h*> element HTML.
      */
-    public function heading($text, $level = 2, $classes = 'main page-section-title-hide', $id = null) {
-        // Build attribute array safely (supports either string class or attribute array).
+    public function heading($text, $level = 2, $classes = null, $id = null) {
+    
+        // If heading contains HTML → DO NOT MODIFY
+        if (is_string($text) && $text !== strip_tags($text)) {
+            return parent::heading($text, $level, $classes, $id);
+        }
+    
         $attributes = [];
-
+    
         if (is_array($classes)) {
             $attributes = $classes;
-        } else if (!is_null($classes) && $classes !== '') {
-            $attributes['class'] = $classes;
+            $existingclasses = $attributes['class'] ?? '';
+        } else {
+            $existingclasses = $classes ?? '';
         }
-
+    
+        // Custom classes
+        $customclasses = 'main page-section-title-hide';
+    
+        // Merge safely
+        $existingclasses = trim($existingclasses);
+        $allclasses = trim($existingclasses . ' ' . $customclasses);
+        $allclasses = implode(' ', array_unique(preg_split('/\s+/', $allclasses)));
+    
+        if ($allclasses === '') {
+            unset($attributes['class']);
+        } else {
+            $attributes['class'] = $allclasses;
+        }
+    
         if (!is_null($id)) {
-            // Respect explicit $id, override if also present in $attributes.
             $attributes['id'] = $id;
         }
-
-        // Only format when the text is a string; if not, defer to parent (handles objects/templates).
+    
         if (is_string($text)) {
             $content = format_string($text);
             return html_writer::tag('h' . (int)$level, $content, $attributes);
         } else {
-            // Fallback to core behavior for non-string inputs to avoid type errors.
             return parent::heading($text, $level, $attributes);
         }
     }
