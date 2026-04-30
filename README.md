@@ -92,6 +92,10 @@ GNU GPL v3 or later
 
 ## Changelog
 
+## v2.3
+- Fixed responsive avatar overlay alignment. 
+- Fixed quiz editor break caused by overriding `heading()` in the renderer (ensured compatibility with core output rendering).
+  
 ## v2.2
 - Resolved TinyMCE modal conflict by removing navbar popover `z-index`.  
 - Enhanced tab navigation design for the Tab block.  
